@@ -1,6 +1,6 @@
 
 
-int sensorPin = A1;    // select the input pin for the potentiometer
+int sensorPin = A1;     // select the input pin for the potentiometer
 int ledPin = 4;      // select the pin for the LED
 int sensorValue = 0;  // variable to store the value coming from the sensor
 int valorConvertido = 0;
