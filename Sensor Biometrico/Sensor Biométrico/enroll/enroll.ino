@@ -6,7 +6,7 @@ uint8_t id;
 
 uint8_t getFingerprintEnroll();
 
-SoftwareSerial mySerial(2, 3); // Pino 2 como entrada do sensor (fio Verde)
+SoftwareSerial mySerial(11, 12); // Pino 2 como entrada do sensor (fio Verde)
                                // Pino 3 como saída do sendor (fio Branco)
 Adafruit_Fingerprint finger = Adafruit_Fingerprint(&mySerial);
 

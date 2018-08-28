@@ -6,8 +6,8 @@
 // pin definition for the Uno
 #define SD_CS  10
 #define LCD_CS 7
-#define DC    9
-#define RESET    8
+#define DC    8
+#define RESET    9
 
 TFT myScreen = TFT(LCD_CS, DC, RESET);
 
@@ -36,15 +36,15 @@ void setup() {
   myScreen.background(255, 255, 255);
 
   // load the image from the SD card
-  image = myScreen.loadImage("imagem2.bmp");
+  image = myScreen.loadImage("ifms.bmp");
 
   // check if the image loaded properly
   if (image.isValid() != true) {
-    Serial.println("error while loading imagem2.bmp");
+    Serial.println("error while loading ifms.bmp");
   }
 
   //write the image on screen
-  myScreen.setRotation(1);
+  myScreen.setRotation(0);
   myScreen.image(image, 0, 0);
 }
 
