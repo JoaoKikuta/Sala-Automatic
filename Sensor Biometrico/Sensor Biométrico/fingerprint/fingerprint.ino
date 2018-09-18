@@ -6,7 +6,7 @@
 
 int getFingerprintIDez();
 
-SoftwareSerial mySerial(2, 3);
+SoftwareSerial mySerial(5, 6);
 Adafruit_Fingerprint finger = Adafruit_Fingerprint(&mySerial);
 
 void setup()  {  
