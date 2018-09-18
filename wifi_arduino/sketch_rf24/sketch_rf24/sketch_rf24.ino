@@ -27,8 +27,8 @@ version 2 as published by the Free Software Foundation.
  
 // Set up nRF24L01 radio on SPI bus plus pins 9 & 10
  
-//RF24 radio(9,10);
-RF24 radio(8,7);
+RF24 radio(9,10);
+//RF24 radio(8,7);
 
 unsigned long time=1;
  
@@ -114,7 +114,8 @@ radio.startListening();
  
 radio.printDetails();
 }
- 
+
+String valor;
 void loop(void)
 {
 //
@@ -128,9 +129,13 @@ radio.stopListening();
  
 // Take the time, and send it. This will block until complete
 //unsigned long time = millis();
-time = time < 10000? time+1:1;
-printf("Now sending %lu...",time);
-bool ok = radio.write( &time, sizeof(unsigned long) );
+ if (Serial.available() > 0) {
+                // read the incoming byte:
+            valor = Serial.readString() ;
+
+                
+        }
+bool ok = radio.write( &valor, 10*sizeof(String) );
  
 if (ok)
 printf("ok...");
@@ -169,7 +174,7 @@ delay(1000);
 //
 // Pong back role. Receive each packet, dump it out, and send it back
 //
- 
+String valor2;
 if ( role == role_pong_back )
 {
 // if there is data ready
@@ -181,10 +186,10 @@ bool done = false;
 while (!done)
 {
 // Fetch the payload, and see if this was the last one.
-done = radio.read( &got_time, sizeof(unsigned long) );
+done = radio.read( &valor2, 10*sizeof(String) );
  
 // Spew it
-printf("Got payload %lu...",got_time);
+Serial.println("Got payload:"+valor2);
  
 // Delay just a little bit to let the other unit
 // make the transition to receiver
