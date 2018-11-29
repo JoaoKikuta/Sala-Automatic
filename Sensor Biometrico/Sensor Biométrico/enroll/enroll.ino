@@ -16,13 +16,13 @@ void setup()  {
 
   finger.begin(57600);   // Define a taxa de dados para a porta serial do sensor
 
-  if (finger.verifyPassword()) {
+  /*if (finger.verifyPassword()) {
     Serial.println("Leitor Biometrico encontrado");
   }
   else {
     Serial.println("Leitor Biometrico nao encontrado");
     while (1);
-  }
+  }*/
 }
 
 uint8_t readnumber(void) {

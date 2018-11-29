@@ -1,6 +1,3 @@
-
-
-
 #include <UIPEthernet.h> // Used for Ethernet
 #include <SoftwareSerial.h>
 #include <Adafruit_Fingerprint.h>
@@ -10,7 +7,7 @@ byte mac[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 EthernetClient client;
 char server[] = "192.168.0.102"; // IP Adres 
 int  interval = 5000; 
-
+byte ip[] = { 192,168,0,105 };
 
 SoftwareSerial mySerial(6, 7);
 Adafruit_Fingerprint finger = Adafruit_Fingerprint(&mySerial);
@@ -19,7 +16,7 @@ int idPego;
 
 void setup() {
   Serial.begin(9600);
-  Ethernet.begin(mac);
+  Ethernet.begin(mac,ip);
   finger.begin(57600);
 
   if (finger.verifyPassword()) {
@@ -52,6 +49,7 @@ void setup() {
 void loop() {
   
    getFingerprintIDez();
+   delay(5000);
  
 }
 
@@ -123,27 +121,37 @@ uint8_t getFingerprintID() {
 
 int getFingerprintIDez() {
   uint8_t p = finger.getImage();
-  if (p != FINGERPRINT_OK){ return -1;}
+  if (p != FINGERPRINT_OK){ 
+  Serial.println("Nao encontrado");
+  
+  return -1;}
 
 
   p = finger.image2Tz();
-  if (p != FINGERPRINT_OK) {return -1;}
+  if (p != FINGERPRINT_OK) {
+  Serial.println("Nao encontrado");
+  
+  return -1;}
 
   p = finger.fingerFastSearch();
-  if (p != FINGERPRINT_OK){ return -1;}
+  if (p != FINGERPRINT_OK){ 
+  Serial.println("Nao encontrado");
+
+  return -1;}
 
 
-  
-  Serial.print("ID # Encontrado"); 
+  Serial.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="); 
+  Serial.println("ID # Encontrado"); 
   idPego = finger.fingerID;
-  
   
   if (client.connect(server, 80)) {
     Serial.println("-> Connected");
+    Serial.println(idPego);
     // Make a HTTP request:
-    client.print( "GET /teste/add_data.php?");
+   
+    client.print( "GET http://localhost/teste/testeinsere.php?");
     client.print("nome=");
-    client.print( "arduino1" );
+    client.print( "1" );
     client.print("&&");
     client.print("id=");
     client.print(idPego);
@@ -154,6 +162,10 @@ int getFingerprintIDez() {
     client.println();
     client.println();
     client.stop();
+    Serial.println("-> resgistrado");
+    Serial.println("=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-="); 
+    //delay(2000);
+    
   }
   else {
     // you didn't get a connection to the server:
